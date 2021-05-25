@@ -1,0 +1,26 @@
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Name</th>
+      <th scope="col">Username</th>
+      <th scope="col">Avatar</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let person of people">
+      <th scope="row">{{ person.id}}</th>
+      <td>{{ person.fname}} {{ person.lname}}</td>
+      <td>{{ person.username}}</td>
+      <td>
+        <img [src]="person.avatar" style="width: 30px">
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<p>
+  <ngb-alert [dismissible]="false">
+    <strong>Warning!</strong> Better check yourself, you're not looking too good.
+  </ngb-alert>
+</p>
