@@ -1,4 +1,4 @@
-<table class="table table-striped">
+<table class="table table-striped table-hover">
   <thead>
     <tr>
       <th scope="col">#</th>
@@ -8,19 +8,184 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let person of people">
-      <th scope="row">{{ person.id}}</th>
-      <td>{{ person.fname}} {{ person.lname}}</td>
-      <td>{{ person.username}}</td>
+    <tr
+      *ngFor="let person of people"
+      (click)="getPerson(person.id)"
+      style="cursor: pointer"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+    >
+      <th scope="row">{{ person.id }}</th>
+      <td>{{ person.fname }} {{ person.lname }}</td>
+      <td>{{ person.username }}</td>
       <td>
-        <img [src]="person.avatar" style="width: 30px">
+        <img [src]="person.avatar" style="width: 30px" />
       </td>
     </tr>
   </tbody>
 </table>
 
-<p>
-  <ngb-alert [dismissible]="false">
-    <strong>Warning!</strong> Better check yourself, you're not looking too good.
-  </ngb-alert>
-</p>
+<button
+  type="button"
+  class="btn btn-primary"
+  data-bs-toggle="modal"
+  data-bs-target="#createModal"
+>
+  Create
+</button>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Profile</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body" *ngIf="!person">Loading</div>
+      <div class="modal-body text-center" *ngIf="person">
+        <br />
+        <img
+          class="card-img-top"
+          [src]="person.avatar"
+          alt="Card image cap"
+          style="width: 50px"
+        />
+        <div class="form-group">
+          <label for="fname">First name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="fname"
+            [(ngModel)]="person.fname"
+          />
+        </div>
+        <div class="form-group">
+          <label for="lname">Last name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="lname"
+            [(ngModel)]="person.lname"
+          />
+        </div>
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            class="form-control"
+            id="username"
+            [(ngModel)]="person.username"
+          />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="text"
+            class="form-control"
+            id="email"
+            [(ngModel)]="person.email"
+          />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="updatePerson(person)"
+        >
+          Update
+        </button>
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="deletePerson(person.id)"
+        >
+          Delete
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="createModal"
+  tabindex="-1"
+  aria-labelledby="createModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="createModalLabel">Create</h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+
+      <div class="modal-body text-center">
+        <div class="form-group">
+          <label for="fname">First name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="fname"
+            [(ngModel)]="person.fname"
+          />
+        </div>
+        <div class="form-group">
+          <label for="lname">Last name</label>
+          <input
+            type="text"
+            class="form-control"
+            id="lname"
+            [(ngModel)]="person.lname"
+          />
+        </div>
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input
+            type="text"
+            class="form-control"
+            id="username"
+            [(ngModel)]="person.username"
+          />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            type="text"
+            class="form-control"
+            id="email"
+            [(ngModel)]="person.email"
+          />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-primary"
+          (click)="createPerson(person)"
+        >
+          Create
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
