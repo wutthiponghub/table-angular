@@ -1,5 +1,5 @@
 import { ThrowStmt } from '@angular/compiler';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { PeopleService } from '../people.service';
 
 @Component({
@@ -10,6 +10,9 @@ import { PeopleService } from '../people.service';
 export class TableComponent implements OnInit {
   people: any = [];
   person: any = {};
+  modalView = false;
+
+  @ViewChild('closeModal') closeModal: any;
 
   constructor(private peopleService: PeopleService) {}
 
@@ -17,16 +20,26 @@ export class TableComponent implements OnInit {
     this.getPeople();
   }
 
+  setModalView(value: any) {
+    this.modalView = value;
+  }
+
+  clearForm() {
+    this.person = {};
+  }
+
   getPerson(id: any) {
     return this.peopleService.getPerson(id).subscribe((data: any) => {
       console.log(data);
       this.person = data.user;
+      this.modalView = true;
     });
   }
   getPeople() {
     return this.peopleService.getPeople().subscribe((data: {}) => {
       console.log(data);
       this.people = data;
+      this.closeModal.nativeElement.click();
     });
   }
   createPerson(person: any) {

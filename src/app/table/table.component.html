@@ -13,7 +13,7 @@
       (click)="getPerson(person.id)"
       style="cursor: pointer"
       data-bs-toggle="modal"
-      data-bs-target="#exampleModal"
+      data-bs-target="#ModalForm"
     >
       <th scope="row">{{ person.id }}</th>
       <td>{{ person.fname }} {{ person.lname }}</td>
@@ -25,81 +25,100 @@
   </tbody>
 </table>
 
-<button
-  type="button"
-  class="btn btn-primary"
-  data-bs-toggle="modal"
-  data-bs-target="#createModal"
->
-  Create
-</button>
+<div class="text-center">
+  <button
+    type="button"
+    class="btn btn-primary"
+    (click)="clearForm(); setModalView(false)"
+    data-bs-toggle="modal"
+    data-bs-target="#ModalForm"
+  >
+    Show Form
+  </button>
+</div>
 
 <!-- Modal -->
 <div
   class="modal fade"
-  id="exampleModal"
+  id="ModalForm"
   tabindex="-1"
-  aria-labelledby="exampleModalLabel"
+  aria-labelledby="ModalFormLabel"
   aria-hidden="true"
 >
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Profile</h5>
+        <h5 class="modal-title" id="ModalFormLabel">
+          {{ modalView ? "View" : "Create" }}
+        </h5>
+
         <button
+          #closeModal
           type="button"
           class="btn-close"
           data-bs-dismiss="modal"
           aria-label="Close"
         ></button>
       </div>
-      <div class="modal-body" *ngIf="!person">Loading</div>
-      <div class="modal-body text-center" *ngIf="person">
-        <br />
+      <div class="modal-body text-center">
         <img
+          *ngIf="person.avatar"
           class="card-img-top"
           [src]="person.avatar"
           alt="Card image cap"
           style="width: 50px"
         />
-        <div class="form-group">
-          <label for="fname">First name</label>
-          <input
-            type="text"
-            class="form-control"
-            id="fname"
-            [(ngModel)]="person.fname"
-          />
-        </div>
-        <div class="form-group">
-          <label for="lname">Last name</label>
-          <input
-            type="text"
-            class="form-control"
-            id="lname"
-            [(ngModel)]="person.lname"
-          />
-        </div>
-        <div class="form-group">
-          <label for="username">Username</label>
-          <input
-            type="text"
-            class="form-control"
-            id="username"
-            [(ngModel)]="person.username"
-          />
-        </div>
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input
-            type="text"
-            class="form-control"
-            id="email"
-            [(ngModel)]="person.email"
-          />
-        </div>
+        <form (ngSubmit)="createPerson(person)" ngNativeValidate>
+          <div class="form-group">
+            <label for="fname">First name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="fname"
+              [(ngModel)]="person.fname"
+              name="fname"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="lname">Last name</label>
+            <input
+              type="text"
+              class="form-control"
+              id="lname"
+              [(ngModel)]="person.lname"
+              name="lname"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input
+              type="text"
+              class="form-control"
+              id="username"
+              [(ngModel)]="person.username"
+              name="username"
+              required
+            />
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              [(ngModel)]="person.email"
+              name="email"
+              required
+            />
+          </div>
+          <button *ngIf="!modalView" type="submit" class="btn btn-primary">
+            Create
+          </button>
+        </form>
       </div>
-      <div class="modal-footer">
+      <div *ngIf="modalView" class="modal-footer">
         <button
           type="button"
           class="btn btn-primary"
@@ -113,77 +132,6 @@
           (click)="deletePerson(person.id)"
         >
           Delete
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Modal -->
-<div
-  class="modal fade"
-  id="createModal"
-  tabindex="-1"
-  aria-labelledby="createModalLabel"
-  aria-hidden="true"
->
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="createModalLabel">Create</h5>
-        <button
-          type="button"
-          class="btn-close"
-          data-bs-dismiss="modal"
-          aria-label="Close"
-        ></button>
-      </div>
-
-      <div class="modal-body text-center">
-        <div class="form-group">
-          <label for="fname">First name</label>
-          <input
-            type="text"
-            class="form-control"
-            id="fname"
-            [(ngModel)]="person.fname"
-          />
-        </div>
-        <div class="form-group">
-          <label for="lname">Last name</label>
-          <input
-            type="text"
-            class="form-control"
-            id="lname"
-            [(ngModel)]="person.lname"
-          />
-        </div>
-        <div class="form-group">
-          <label for="username">Username</label>
-          <input
-            type="text"
-            class="form-control"
-            id="username"
-            [(ngModel)]="person.username"
-          />
-        </div>
-        <div class="form-group">
-          <label for="email">Email</label>
-          <input
-            type="text"
-            class="form-control"
-            id="email"
-            [(ngModel)]="person.email"
-          />
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button
-          type="button"
-          class="btn btn-primary"
-          (click)="createPerson(person)"
-        >
-          Create
         </button>
       </div>
     </div>
